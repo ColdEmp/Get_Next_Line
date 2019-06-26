@@ -6,7 +6,7 @@
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 12:18:08 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/06/24 16:58:09 by cglanvil         ###   ########.fr       */
+/*   Updated: 2019/06/25 10:32:06 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	new_line_test(*str)
 	}
 	return (-1);
 }
-//*ft_strchar(str, "\n");
+//*ft_strchr(str, "\n");
 
 int	end_test(*str)
 {
