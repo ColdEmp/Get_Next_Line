@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/18 12:53:35 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/04 13:46:46 by cglanvil         ###   ########.fr       */
+/*   Created: 2019/07/04 11:21:36 by cglanvil          #+#    #+#             */
+/*   Updated: 2019/07/04 14:48:49 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUFF_SIZE 5
-# include "libft/libft.h"
-# include <stdio.h>
-# include <fcntl.h>
-# include <stdlib.h>
-# include <unistd.h>
+#include "get_next_line.h"
 
-int	get_next_line(const int fd, char **line);
-#endif
+int	main(int argc, char *argv[])
+{
+	int		fd;
+	char	*line;
+
+	if (argc == 2)
+	{
+		fd = open(argv[1], 'r');
+		get_next_line(fd, &line);
+		ft_putstr(line);
+	}
+	return (0);
+}
