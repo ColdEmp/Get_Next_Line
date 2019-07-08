@@ -6,7 +6,7 @@
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 11:21:36 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/05 10:48:28 by cglanvil         ###   ########.fr       */
+/*   Updated: 2019/07/08 15:17:44 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,24 @@
 int	main(int argc, char *argv[])
 {
 	int		fd;
+	int		ret;
+	int		i;
 	char	*line;
-	
-	//line = (char *)malloc(1);
+
+	i = 0;
 	if (argc == 2)
 	{
 		fd = open(argv[1], 'r');
-		get_next_line(fd, &line);
-		ft_putstr(line);
+		//while ((ret = get_next_line(fd, &line)) == 1)
+		while (i < 8)
+		{
+			ret = get_next_line(fd, &line);
+			ft_putstr(line);
+			ft_putstr("\n|| return is ");
+			ft_putnbr(ret);
+			ft_putstr(" ||\n");
+			i++;
+		}
 	}
 	return (0);
 }

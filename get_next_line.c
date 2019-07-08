@@ -6,13 +6,13 @@
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 12:18:08 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/05 16:20:59 by cglanvil         ###   ########.fr       */
+/*   Updated: 2019/07/08 15:18:32 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char*	next_line(char *buff, char **line)
+void	next_line(char **buff, char **line)
 {
 	char	*shard;
 	int		i;
@@ -20,7 +20,7 @@ char*	next_line(char *buff, char **line)
 
 	i = 0;
 	nl = 0;
-	shard = strdup((char const*)buff);
+	shard = ft_strdup((char const*)*buff);
 	while (i < (BUFF_SIZE + 1))
 	{
 		if (shard[i] == '\n' || nl)
@@ -31,68 +31,51 @@ char*	next_line(char *buff, char **line)
 		i++;
 	}
 	*line = ft_strjoin(*line, (char const*)shard);
-	buff = (ft_strchr((char const*)buff, '\n') + 1);
-	return (buff);
+	free(shard);
+	*buff = ft_strcpy(*buff, (ft_strchr((char const*)*buff, '\n') + 1));
 }
 
-/*char*	logic(char *buff, char **line)
+int		logic(char **buff, char **line)
 {
 	char	*temp;
 
 	temp = *line;
-	if (ft_strchr((char const*)buff, '\n'))
+	if (ft_strchr((char const*)*buff, '\n'))
 	{
-		buff = next_line(buff, line);
+		next_line(buff, line);
 		free(temp);
-		return (buff);
+		return (1);
 	}
-	*line = ft_strjoin(*line, (char const*)buff);
+	*line = ft_strjoin(*line, (char const*)*buff);
 	free(temp);
-	return (buff);
-}*/
+	*buff[0] = '\0';
+	return (0);
+}
 
-int	get_next_line(const int fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
-	static char		buff[BUFF_SIZE + 1];
-	char			*temp;
+	static char		*buff;
 	int				ret;
 
 	if (!line || fd < 0 || read(fd, NULL, 0) < 0 || BUFF_SIZE < 1)
 		return (-1);
-	*line = strdup("");
-	/*if (buff[0] != '\0')
+	if (!buff)
+		buff = ft_strnew(BUFF_SIZE + 1);
+	*line = ft_strdup("");
+	while (buff[0] != '\0')
 	{
-		temp = *line;
-		if (ft_strchr((char const*)buff, '\n'))
-		{
-			buff = next_line(buff, line);
-			free(temp);
+		if (logic(&buff, &*line) == 1)
 			return (1);
-		}
-		*line = ft_strjoin(*line, (char const*)buff);
-		free(temp);
-	}*/
+	}
 	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
 	{
-		temp = *line;
-		if (ft_strchr((char const*)buff, '\n'))
-		{
-			buff = next_line(buff, line);
-			free(temp);
+		buff[ret] = '\0';
+		if (logic(&buff, &*line) == 1)
 			break ;
-		}
-		*line = ft_strjoin(*line, (char const*)buff);
-		free(temp);
 	}
 	if (ret < 0)
 		return (-1);
-	else if (ret == 0)
+	if (ret == 0 && (*line[0] == '\0' || *line == NULL))
 		return (0);
 	return (1);
 }
-
-
-//str = "abduraghmaan";
-
-//str[3];
-//str = (*str+3);
