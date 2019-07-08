@@ -6,7 +6,7 @@
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 12:18:08 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/08 15:18:32 by cglanvil         ###   ########.fr       */
+/*   Updated: 2019/07/08 16:23:01 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		get_next_line(const int fd, char **line)
 	{
 		buff[ret] = '\0';
 		if (logic(&buff, &*line) == 1)
-			break ;
+			return (1);
 	}
 	if (ret < 0)
 		return (-1);
