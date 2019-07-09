@@ -1,45 +1,53 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_v2.c                                 :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/09 13:35:25 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/09 15:57:27 by cglanvil         ###   ########.fr       */
+/*   Created: 2019/06/18 12:18:08 by cglanvil          #+#    #+#             */
+/*   Updated: 2019/07/08 16:23:01 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strapptoc(char *dst, char const *src, char c)
+void	next_line(char **buff, char **line)
 {
-	int	i;
-	int	j;
+	char	*shard;
+	int		i;
+	int		nl;
 
 	i = 0;
-	j = 0;
-	while (dst[i] != '\0')
-		i++;
-	while (src[j] != '\0' && src[j] != c)
+	nl = 0;
+	shard = ft_strdup((char const*)*buff);
+	while (i < (BUFF_SIZE + 1))
 	{
-		dst[i] = src[j];
+		if (shard[i] == '\n' || nl)
+		{
+			shard[i] = '\0';
+			nl = 1;
+		}
 		i++;
-		j++;
 	}
-	dst[i] = '\0';
-	return (dst);
+	*line = ft_strjoin(*line, (char const*)shard);
+	free(shard);
+	*buff = ft_strcpy(*buff, (ft_strchr((char const*)*buff, '\n') + 1));
 }
 
 int		logic(char **buff, char **line)
 {
+	char	*temp;
+
+	temp = *line;
 	if (ft_strchr((char const*)*buff, '\n'))
 	{
-		*line = ft_strapptoc(*line, (char const*)*buff, '\n');
-		*buff = ft_strcpy(*buff, (ft_strchr((char const*)*buff, '\n') + 1));
+		next_line(buff, line);
+		free(temp);
 		return (1);
 	}
-	*line = ft_strcat(*line, (char const*)*buff);
+	*line = ft_strjoin(*line, (char const*)*buff);
+	free(temp);
 	*buff[0] = '\0';
 	return (0);
 }
@@ -53,7 +61,7 @@ int		get_next_line(const int fd, char **line)
 		return (-1);
 	if (!buff)
 		buff = ft_strnew(BUFF_SIZE + 1);
-	*line = ft_strnew(250000);
+	*line = ft_strdup("");
 	while (buff[0] != '\0')
 	{
 		if (logic(&buff, &*line) == 1)
