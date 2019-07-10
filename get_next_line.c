@@ -6,7 +6,7 @@
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 13:35:25 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/09 15:57:27 by cglanvil         ###   ########.fr       */
+/*   Updated: 2019/07/10 16:23:05 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ int		logic(char **buff, char **line)
 	return (0);
 }
 
+void	multiple_fd(t_list **head, fd)
+{
+
+}
+
 int		get_next_line(const int fd, char **line)
 {
 	static char		*buff;
@@ -67,7 +72,7 @@ int		get_next_line(const int fd, char **line)
 	}
 	if (ret < 0)
 		return (-1);
-	if (ret == 0 && (*line[0] == '\0' || *line == NULL))
+	if (ret == 0 && (*line[0] == '\0'))
 		return (0);
 	return (1);
 }
