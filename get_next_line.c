@@ -6,7 +6,7 @@
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 13:35:25 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/11 15:55:55 by cglanvil         ###   ########.fr       */
+/*   Updated: 2019/07/11 16:18:08 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*multiple_fd_setup(t_list **head, int fd)
 
 	if (!*head)
 	{
-		*head = ft_lstnew((void const*)(ft_strnew(BUFF_SIZE + 1)),
+		*head = ft_lstnew((ft_strnew(BUFF_SIZE + 1)),
 				BUFF_SIZE + 1);
 		(*head)->content_size = fd;
 	}
@@ -63,7 +63,7 @@ char	*multiple_fd_setup(t_list **head, int fd)
 	}
 	if (!temp)
 	{
-		temp = ft_lstnew((void const*)(ft_strnew(BUFF_SIZE + 1)),
+		temp = ft_lstnew((ft_strnew(BUFF_SIZE + 1)),
 				BUFF_SIZE + 1);
 		temp->content_size = fd;
 	}
