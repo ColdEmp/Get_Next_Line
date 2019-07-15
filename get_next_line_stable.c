@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_v2.c                                 :+:      :+:    :+:   */
+/*   get_next_line_stable.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/07/09 13:35:25 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/11 16:18:08 by cglanvil         ###   ########.fr       */
+/*   Created: 2019/07/11 16:00:23 by cglanvil          #+#    #+#             */
+/*   Updated: 2019/07/11 16:00:42 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strcattoc(char *dst, char const *src, char c)
+char	*ft_strapptoc(char *dst, char const *src, char c)
 {
 	int	i;
 	int	j;
@@ -35,7 +35,7 @@ int		logic(char **buff, char **line)
 {
 	if (ft_strchr((char const*)*buff, '\n'))
 	{
-		*line = ft_strcattoc(*line, (char const*)*buff, '\n');
+		*line = ft_strapptoc(*line, (char const*)*buff, '\n');
 		*buff = ft_strcpy(*buff, (ft_strchr((char const*)*buff, '\n') + 1));
 		return (1);
 	}
@@ -44,41 +44,15 @@ int		logic(char **buff, char **line)
 	return (0);
 }
 
-char	*multiple_fd_setup(t_list **head, int fd)
-{
-	t_list	*temp;
-
-	if (!*head)
-	{
-		*head = ft_lstnew((ft_strnew(BUFF_SIZE + 1)),
-				BUFF_SIZE + 1);
-		(*head)->content_size = fd;
-	}
-	temp = *head;
-	while (temp)
-	{
-		if (temp->content_size == (size_t)fd)
-			break ;
-		temp = temp->next;
-	}
-	if (!temp)
-	{
-		temp = ft_lstnew((ft_strnew(BUFF_SIZE + 1)),
-				BUFF_SIZE + 1);
-		temp->content_size = fd;
-	}
-	return ((char*)temp->content);
-}
-
 int		get_next_line(const int fd, char **line)
 {
-	static t_list	*head;
-	char			*buff;
+	static char		*buff;
 	int				ret;
 
 	if (!line || fd < 0 || read(fd, NULL, 0) < 0 || BUFF_SIZE < 1)
 		return (-1);
-	buff = multiple_fd_setup(&head, fd);
+	if (!buff)
+		buff = ft_strnew(BUFF_SIZE + 1);
 	*line = ft_strnew(250000);
 	while (buff[0] != '\0')
 	{
