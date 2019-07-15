@@ -6,7 +6,7 @@
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 13:35:25 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/11 16:18:08 by cglanvil         ###   ########.fr       */
+/*   Updated: 2019/07/15 17:56:45 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,39 @@ char	*multiple_fd_setup(t_list **head, int fd)
 		*head = ft_lstnew((ft_strnew(BUFF_SIZE + 1)),
 				BUFF_SIZE + 1);
 		(*head)->content_size = fd;
+		(*head)->next = NULL;
 	}
 	temp = *head;
-	while (temp)
+	while (temp->next)
 	{
-		if (temp->content_size == (size_t)fd)
+		if ((temp->content_size) == (size_t)fd)
 			break ;
 		temp = temp->next;
 	}
-	if (!temp)
+	if (temp->content_size != (size_t)fd)
 	{
-		temp = ft_lstnew((ft_strnew(BUFF_SIZE + 1)),
+		temp->next = ft_lstnew((ft_strnew(BUFF_SIZE + 1)),
 				BUFF_SIZE + 1);
+		temp = temp->next;
 		temp->content_size = fd;
+		temp->next = NULL;
 	}
-	return ((char*)temp->content);
+	return ((char*)(temp->content));
+}
+
+void	lstfree(t_list **list)
+{
+	t_list *temp;
+
+	while (*list)
+	{
+		temp = (*list)->next;
+		free((*list)->content);
+		free((void*)((*list)->content_size));
+		free(*list);
+		*list = NULL;
+		*list = temp;
+	}
 }
 
 int		get_next_line(const int fd, char **line)
@@ -81,10 +99,8 @@ int		get_next_line(const int fd, char **line)
 	buff = multiple_fd_setup(&head, fd);
 	*line = ft_strnew(250000);
 	while (buff[0] != '\0')
-	{
 		if (logic(&buff, &*line) == 1)
 			return (1);
-	}
 	while ((ret = read(fd, buff, BUFF_SIZE)) > 0)
 	{
 		buff[ret] = '\0';
@@ -94,6 +110,9 @@ int		get_next_line(const int fd, char **line)
 	if (ret < 0)
 		return (-1);
 	if (ret == 0 && (*line[0] == '\0'))
+	{
+		//lstfree(&head);
 		return (0);
+	}
 	return (1);
 }
