@@ -6,7 +6,7 @@
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 13:35:25 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/15 17:56:45 by cglanvil         ###   ########.fr       */
+/*   Updated: 2019/07/16 15:10:24 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*multiple_fd_setup(t_list **head, int fd)
 	while (temp->next)
 	{
 		if ((temp->content_size) == (size_t)fd)
-			break ;
+			return ((char*)(temp->content));
 		temp = temp->next;
 	}
 	if (temp->content_size != (size_t)fd)
@@ -75,17 +75,9 @@ char	*multiple_fd_setup(t_list **head, int fd)
 
 void	lstfree(t_list **list)
 {
-	t_list *temp;
-
-	while (*list)
-	{
-		temp = (*list)->next;
-		free((*list)->content);
-		free((void*)((*list)->content_size));
-		free(*list);
-		*list = NULL;
-		*list = temp;
-	}
+	if ((*list)->next)
+		lstfree(&(*list)->next);
+	free(*list);
 }
 
 int		get_next_line(const int fd, char **line)
@@ -111,7 +103,6 @@ int		get_next_line(const int fd, char **line)
 		return (-1);
 	if (ret == 0 && (*line[0] == '\0'))
 	{
-		//lstfree(&head);
 		return (0);
 	}
 	return (1);

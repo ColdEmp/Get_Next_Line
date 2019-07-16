@@ -6,7 +6,7 @@
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 11:21:36 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/15 17:50:10 by cglanvil         ###   ########.fr       */
+/*   Updated: 2019/07/16 15:15:39 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,19 @@
 
 int	main(int argc, char *argv[])
 {
-	//int		fd;
+	/*int		fd;*/
 	int		ret;
 	int		i;
 	char	*line;
+
 	ft_putstr_fd(argv[0],2);
 	i = 0;
 	if (argc == 2)
 	{
-		//fd = open(argv[1], 'r');
+		/*fd = open(argv[1], 'r');*/
 		while ((ret=get_next_line(0, &line)) >= 0)
 		{
-			//ret = get_next_line(fd, &line);
+			/*ret = get_next_line(fd, &line);*/
 			ft_putstr(line);
 			ft_putchar('\n');
 			ft_putstr("|| return is ");
