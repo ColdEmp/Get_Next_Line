@@ -6,7 +6,7 @@
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 13:35:25 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/16 15:10:24 by cglanvil         ###   ########.fr       */
+/*   Updated: 2019/07/17 09:48:33 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		logic(char **buff, char **line)
 	return (0);
 }
 
-char	*multiple_fd_setup(t_list **head, int fd)
+char	*set_fd(t_list **head, int fd)
 {
 	t_list	*temp;
 
@@ -88,7 +88,7 @@ int		get_next_line(const int fd, char **line)
 
 	if (!line || fd < 0 || read(fd, NULL, 0) < 0 || BUFF_SIZE < 1)
 		return (-1);
-	buff = multiple_fd_setup(&head, fd);
+	buff = set_fd(&head, fd);
 	*line = ft_strnew(250000);
 	while (buff[0] != '\0')
 		if (logic(&buff, &*line) == 1)
