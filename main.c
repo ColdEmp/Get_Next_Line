@@ -6,7 +6,7 @@
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/04 11:21:36 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/16 15:15:39 by cglanvil         ###   ########.fr       */
+/*   Updated: 2019/07/18 13:40:24 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,27 @@
 
 int	main(int argc, char *argv[])
 {
-	/*int		fd;*/
-	int		ret;
-	int		i;
+	int		fd;
 	char	*line;
 
-	ft_putstr_fd(argv[0],2);
-	i = 0;
-	if (argc == 2)
+	if (argc == 3)
 	{
-		/*fd = open(argv[1], 'r');*/
-		while ((ret=get_next_line(0, &line)) >= 0)
-		{
-			/*ret = get_next_line(fd, &line);*/
-			ft_putstr(line);
-			ft_putchar('\n');
-			ft_putstr("|| return is ");
-			ft_putnbr(ret);
-			ft_putstr(" ||\n");
-			i++;
-		}
+		fd = open(argv[1], 'r');
+		get_next_line(fd, &line);
+		ft_putstr(line);
+		ft_putstr("\n");
+		fd = open(argv[2], 'r');
+		get_next_line(fd, &line);
+		ft_putstr(line);
+		ft_putstr("\n");
+		fd = open(argv[1], 'r');
+		get_next_line(fd, &line);
+		ft_putstr(line);
+		ft_putstr("\n");
+		fd = open(argv[2], 'r');
+		get_next_line(fd, &line);
+		ft_putstr(line);
+		ft_putstr("\n");
 	}
-	while (1);
 	return (0);
 }

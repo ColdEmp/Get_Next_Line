@@ -6,7 +6,7 @@
 /*   By: cglanvil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/09 13:35:25 by cglanvil          #+#    #+#             */
-/*   Updated: 2019/07/17 09:48:33 by cglanvil         ###   ########.fr       */
+/*   Updated: 2019/07/18 15:55:29 by cglanvil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		logic(char **buff, char **line)
 	return (0);
 }
 
-char	*set_fd(t_list **head, int fd)
+char	*fetch_correct_fd(t_list **head, int fd)
 {
 	t_list	*temp;
 
@@ -73,11 +73,24 @@ char	*set_fd(t_list **head, int fd)
 	return ((char*)(temp->content));
 }
 
-void	lstfree(t_list **list)
+void	freenode(t_list **head, int fd)
 {
-	if ((*list)->next)
-		lstfree(&(*list)->next);
-	free(*list);
+	t_list	*temp;
+	t_list	*temp2;
+
+	temp = *head;
+	if ((temp->content_size) == (size_t)fd)
+	{
+		*head = temp->next;
+		free(temp);
+		return ;
+	}
+	while (((temp->next)->content_size) != (size_t)fd)
+		temp = temp->next;
+	temp2 = temp;
+	temp = temp->next;
+	temp2->next = temp->next;
+	free(temp);
 }
 
 int		get_next_line(const int fd, char **line)
@@ -88,7 +101,7 @@ int		get_next_line(const int fd, char **line)
 
 	if (!line || fd < 0 || read(fd, NULL, 0) < 0 || BUFF_SIZE < 1)
 		return (-1);
-	buff = set_fd(&head, fd);
+	buff = fetch_correct_fd(&head, fd);
 	*line = ft_strnew(250000);
 	while (buff[0] != '\0')
 		if (logic(&buff, &*line) == 1)
@@ -103,6 +116,7 @@ int		get_next_line(const int fd, char **line)
 		return (-1);
 	if (ret == 0 && (*line[0] == '\0'))
 	{
+		freenode(&head, fd);
 		return (0);
 	}
 	return (1);
